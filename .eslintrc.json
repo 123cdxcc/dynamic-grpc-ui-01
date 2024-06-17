@@ -8,17 +8,17 @@
 	"parser": "@typescript-eslint/parser",
 	"plugins": ["react-prefer-function-component"],
 	"extends": [
-		"eslint:all",
-		"plugin:@typescript-eslint/all",
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
 		"plugin:import/recommended",
 		"plugin:import/typescript",
-		"plugin:react/all",
+		"plugin:react/recommended",
 		"plugin:jsx-a11y/recommended",
 		"airbnb",
 		"airbnb-typescript",
 		"airbnb/hooks",
 		"plugin:react/jsx-runtime",
-		"plugin:unicorn/all",
+		"plugin:unicorn/recommended",
 		"plugin:react-prefer-function-component/recommended",
 		"prettier"
 	],
@@ -68,6 +68,7 @@
 		"@typescript-eslint/member-ordering": "off",
 		"@typescript-eslint/prefer-includes": "off",
 		"@typescript-eslint/no-restricted-imports": "off",
+		"@typescript-eslint/no-unused-vars": "error",
 
 		"import/no-deprecated": "error",
 		"import/order": "off",
@@ -110,7 +111,8 @@
 		"react/function-component-definition": [
 			"error",
 			{
-				"namedComponents": "function-declaration"
+				"namedComponents": ["arrow-function", "function-declaration"],
+				"unnamedComponents": ["function-expression", "arrow-function"]
 			}
 		],
 		"react/no-unstable-nested-components": "error",
@@ -147,7 +149,8 @@
 				}
 			}
 		],
-		"unicorn/no-nested-ternary": ["error"]
+		"unicorn/no-nested-ternary": ["error"],
+		"unicorn/prevent-abbreviations": "off"
 	},
 	"settings": {
 		"react": {
