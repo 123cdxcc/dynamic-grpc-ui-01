@@ -122,7 +122,7 @@
 				"eventHandlerPrefix": "on",
 				"eventHandlerPropPrefix": "on",
 				"checkLocalVariables": true,
-				"checkInlineFunction": true
+				"checkInlineFunction": false
 			}
 		],
 		"react/jsx-key": "error",
