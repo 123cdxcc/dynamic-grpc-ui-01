@@ -11,28 +11,10 @@ function MetadataEdit(): ReactElement {
 	interface DataItem {
 		key: string
 		value: string
-		keyEditable: boolean
-		valueEditable: boolean
 	}
-	const [data, setData] = useState<DataItem[]>([
-		{
-			key: 'key1',
-			value: 'value',
-			keyEditable: false,
-			valueEditable: false
-		},
-		{
-			key: 'key2',
-			value: 'value',
-			keyEditable: false,
-			valueEditable: false
-		}
-	])
+	const [data, setData] = useState<DataItem[]>([])
 	const onAddItem = () => {
-		setData([
-			...data,
-			{ key: '', value: '', keyEditable: true, valueEditable: true }
-		])
+		setData([...data, { key: '', value: '' }])
 	}
 	const onRemoveItem = (index: number) => {
 		const newData: DataItem[] = []
@@ -41,8 +23,13 @@ function MetadataEdit(): ReactElement {
 				newData.push(datum)
 			}
 		}
-		console.log(newData.map(item => item.key).toString(), index)
 		setData(newData)
+	}
+	const onKeyChangeHanlder = (value: string, index: number) => {
+		data[index].key = value
+	}
+	const onValueChangeHanlder = (value: string, index: number) => {
+		data[index].value = value
 	}
 	return (
 		<List
@@ -59,22 +46,24 @@ function MetadataEdit(): ReactElement {
 			}
 			renderItem={(item, index) => (
 				<List.Item key={index}>
-					<Space direction='vertical' className='w-full'>
-						<Space.Compact block>
-							<Input
-								defaultValue={item.key}
-								className='flex-1'
-								placeholder='key'
-							/>
-							<Input
-								id='a'
-								defaultValue={item.value}
-								className='flex-1'
-								placeholder='value'
-							/>
-							<Button onClick={() => onRemoveItem(index)}>删除</Button>
-						</Space.Compact>
-					</Space>
+					<Space.Compact block>
+						<Input
+							defaultValue={item.key}
+							className='flex-1'
+							placeholder='key'
+							onChange={e => onKeyChangeHanlder(e.target.value, index)}
+						/>
+						<Input
+							id='a'
+							defaultValue={item.value}
+							className='flex-1'
+							placeholder='value'
+							onChange={e => onValueChangeHanlder(e.target.value, index)}
+						/>
+					</Space.Compact>
+					<Button onClick={() => onRemoveItem(index)} type='link' danger>
+						删除
+					</Button>
 				</List.Item>
 			)}
 		/>

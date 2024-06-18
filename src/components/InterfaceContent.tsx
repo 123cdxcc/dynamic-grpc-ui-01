@@ -1,5 +1,4 @@
 import { Button, Input, Select, Space } from 'antd'
-import 'antd/dist/reset.css'
 import type { ReactElement } from 'react'
 import Request from './Request'
 

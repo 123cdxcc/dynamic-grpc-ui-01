@@ -1,34 +1,32 @@
-import type { TabsProps } from 'antd'
-import { Tabs } from 'antd'
+import { Tabs, TabsProps } from 'antd'
 import InterfaceContent from 'components/InterfaceContent'
-import { useRef, useState, type ReactElement } from 'react'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { useState, type ReactElement } from 'react'
+import { addTab, removeTab } from './HomeStore'
 
 type TargetKey = React.KeyboardEvent | React.MouseEvent | string
 
-const initialItems: TabsProps['items'] = []
-
 export default function HomePage(): ReactElement {
-	const [activeKey, setActiveKey] = useState<string>()
-	const [items, setItems] = useState(initialItems)
-	const tabIndex = useRef(0)
+	const homeStore = useAppSelector(state => state.homeTabs.value)
+	const items: TabsProps['items'] = homeStore.items.map(item => ({
+		key: item.key,
+		label: item.label,
+		children: <InterfaceContent />
+	}))
+	const dispatch = useAppDispatch()
+	const [activeKey, setActiveKey] = useState<string>(homeStore.activeKey ?? '')
 
 	const onChange = (key: string): void => {
 		setActiveKey(key)
 	}
 
 	const add = (): void => {
-		const temporaryActiveKey = `newTab${tabIndex.current}`
-		tabIndex.current += 1
-		if (!items) {
-			return
-		}
-		const panes = [...items]
-		panes.push({
+		const temporaryActiveKey = `newTab${items.length}-${Date.now().toString}`
+		const tab = {
 			label: 'New Request',
-			children: <InterfaceContent />,
 			key: temporaryActiveKey
-		})
-		setItems(panes)
+		}
+		dispatch(addTab(tab))
 		setActiveKey(temporaryActiveKey)
 	}
 
@@ -47,7 +45,12 @@ export default function HomePage(): ReactElement {
 		if (panes.length > 0 && temporaryActiveKey === targetKey) {
 			temporaryActiveKey = lastIndex >= 0 ? panes[lastIndex].key : panes[0].key
 		}
-		setItems(panes)
+		dispatch(
+			removeTab({
+				removeKey: targetKey.toString(),
+				activeKey: temporaryActiveKey
+			})
+		)
 		setActiveKey(temporaryActiveKey)
 	}
 

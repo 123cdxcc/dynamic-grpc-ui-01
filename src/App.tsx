@@ -2,7 +2,7 @@ import type { MenuProps } from 'antd'
 import { Layout, Menu } from 'antd'
 import Home from 'pages/Home'
 import Setting from 'pages/Setting'
-import type { ReactElement } from 'react'
+import { type ReactElement } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 
 // const Home = lazy(async () => import('pages/Home'))
@@ -34,12 +34,10 @@ export default function App(): ReactElement {
 				/>
 			</Sider>
 			<Content className='h-[100vh]'>
-				{/* <Suspense> */}
 				<Routes>
 					<Route path='/' element={<Home />} />
 					<Route path='/setting' element={<Setting />} />
 				</Routes>
-				{/* </Suspense> */}
 			</Content>
 		</Layout>
 	)
